@@ -1,4 +1,4 @@
-import {ReactNode} from "react";
+import {ReactNode, useRef} from "react";
 import {useInterventions} from "../contexts/InterventionsProvider";
 
 type InterventionWrapperProps = {
@@ -11,12 +11,20 @@ export const InterventionWrapper = ({
   children,
 }: InterventionWrapperProps) => {
   const {data} = useInterventions();
+  const showOnce = useRef(false);
+
   // Find intervention by name
   const thisIntervention = data.find(
     (intervention) => intervention.name === name,
   );
 
-  if (!thisIntervention || !thisIntervention.isLive) {
+  if (!showOnce.current) {
+    if (thisIntervention?.isLive) {
+      showOnce.current = true;
+    }
+  }
+
+  if (!thisIntervention || !showOnce.current) {
     return null;
   }
   // This is a simple conditional render. If you need to refer to interventions
