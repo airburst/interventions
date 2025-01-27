@@ -24,11 +24,9 @@ export const InterventionsProvider = ({children}: ProviderProps) => {
     try {
       const response = await fetch(POLLING_API_URL);
       const data = (await response.json()) as Intervention[];
-
-      // FIXME: remove
-      console.info("Polling API data for interventions");
-      console.table(data.map(({name, isLive}) => ({name, isLive})));
-
+      // DEBUG:
+      // console.info("Polling API data for interventions");
+      // console.table(data.map(({name, isLive}) => ({name, isLive})));
       dispatch({type: "SET", payload: data});
     } catch (error) {
       console.log(error);
