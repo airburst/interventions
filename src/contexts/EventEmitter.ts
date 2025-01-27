@@ -16,6 +16,7 @@ export class EventEmitter<T> {
 
   emit(event: string, data: T) {
     const listeners = this.events[event];
+
     if (listeners) {
       listeners.forEach((listener) => listener(data));
     }
