@@ -1,7 +1,7 @@
 import {Text} from "@simplybusiness/mobius";
 import "./App.css";
 import {AlertIntervention} from "./components/interventions/AlertIntervention";
-import {ModalIntervention} from "./components/interventions/ModalIntervention/ModalIntervention";
+import {ModalIntervention} from "./components/interventions/ModalIntervention";
 import {TextIntervention} from "./components/interventions/TextIntervention";
 import {InterventionWrapper} from "./components/InterventionWrapper";
 import {InterventionsProvider} from "./contexts";
