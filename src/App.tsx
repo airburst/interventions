@@ -1,4 +1,4 @@
-import {Modal, Text} from "@simplybusiness/mobius";
+import {Alert, Modal, Text} from "@simplybusiness/mobius";
 import "./App.css";
 import {InterventionWrapper} from "./components/InterventionWrapper";
 import {InterventionsProvider} from "./contexts";
@@ -25,9 +25,15 @@ function App() {
           <Text elementType="p">Intervention Text 001 is live!</Text>
         </InterventionWrapper>
 
-        <InterventionWrapper name="popup-002">
-          <Modal isOpen={true} onClose={() => {}}>
-            <Modal.Header>Intervention Popup 002</Modal.Header>
+        <InterventionWrapper name="alert-002">
+          <Alert header="I am intervening!" show variant="info">
+            This is an important piece of information inside Alert-002.
+          </Alert>
+        </InterventionWrapper>
+
+        <InterventionWrapper name="popup-003">
+          <Modal isOpen={true} onClose={() => {}} animation="fade">
+            <Modal.Header>Intervention Popup 003</Modal.Header>
             <Modal.Content>
               <Text elementType="p">
                 This is the content of the intervention popup 002.

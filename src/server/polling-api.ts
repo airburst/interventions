@@ -27,7 +27,12 @@ app.get("/interventions", (c) => {
       isLive: randomlyLive(50),
     },
     {
-      name: "popup-002",
+      name: "alert-002",
+      description: "This intervention displays an alert",
+      isLive: randomlyLive(30),
+    },
+    {
+      name: "popup-003",
       description: "This intervention displays additional text",
       isLive: randomlyLive(20),
     },
