@@ -15,14 +15,11 @@ export const InterventionWrapper = ({
 
   // Subscribe to events for the given intervention name
   useEffect(() => {
-    eventEmitter?.on(name, (data) => {
-      if (data.isLive) {
+    eventEmitter?.on(name, (intervention) => {
+      if (intervention.isLive) {
         setShow(true);
       }
     });
-    // return () => {
-    //   eventEmitter?.off(name);
-    // };
   }, [eventEmitter, name]);
 
   if (!show) {
