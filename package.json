@@ -14,6 +14,7 @@
   "dependencies": {
     "@simplybusiness/mobius": "^5.15.7",
     "@simplybusiness/theme-core": "^7.2.22",
+    "jotai": "^2.11.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

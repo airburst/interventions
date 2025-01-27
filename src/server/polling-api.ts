@@ -25,16 +25,19 @@ app.get("/interventions", (c) => {
       name: "text-001",
       description: "This intervention displays additional text",
       isLive: randomlyLive(50),
+      firstName: "Tony",
     },
     {
       name: "alert-002",
       description: "This intervention displays an alert",
       isLive: randomlyLive(30),
+      firstName: "Alice",
     },
     {
       name: "popup-003",
       description: "This intervention displays additional text",
-      isLive: randomlyLive(20),
+      isLive: randomlyLive(100),
+      firstName: "Poppy",
     },
   ]);
 });
