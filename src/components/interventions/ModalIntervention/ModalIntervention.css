@@ -1,0 +1,6 @@
+.mobius-modal-intervention {
+  & .highlight {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+}

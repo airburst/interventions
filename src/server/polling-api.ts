@@ -30,13 +30,13 @@ app.get("/interventions", (c) => {
     {
       name: "alert-002",
       description: "This intervention displays an alert",
-      isLive: randomlyLive(30),
+      isLive: randomlyLive(33),
       firstName: "Alice",
     },
     {
       name: "popup-003",
       description: "This intervention displays additional text",
-      isLive: randomlyLive(100),
+      isLive: randomlyLive(25),
       firstName: "Poppy",
     },
   ]);
