@@ -47,7 +47,7 @@ export const InterventionsProvider = ({children}: ProviderProps) => {
   useInterval(pollApi, POLLING_INTERVAL);
 
   return (
-    <InterventionsContext.Provider value={null}>
+    <InterventionsContext.Provider value={{eventEmitter}}>
       {children}
     </InterventionsContext.Provider>
   );

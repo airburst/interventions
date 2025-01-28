@@ -3,7 +3,6 @@ import {
   ReactElement,
   ReactNode,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import {useInterventions} from "../contexts/InterventionsProvider";
@@ -18,10 +17,9 @@ export const InterventionWrapper = ({
   name,
   children,
 }: InterventionWrapperProps) => {
-  const showOnce = useRef(false);
   const {eventEmitter} = useInterventions();
-  const [show, setShow] = useState(false);
   const [intervention, setIntervention] = useState<Intervention | null>(null);
+  const [show, setShow] = useState(false);
 
   // Subscribe to events for the given intervention name
   useEffect(() => {
@@ -37,9 +35,5 @@ export const InterventionWrapper = ({
     return null;
   }
 
-  if (intervention?.isLive && !showOnce.current) {
-    showOnce.current = true;
-  }
-
-  return cloneElement(children as ReactElement, {...intervention});
+  return cloneElement(children as ReactElement, {...(intervention || {})});
 };
