@@ -4,12 +4,12 @@ import "./Interventions.css";
 
 export const ModalIntervention = (props: InterventionProps) => {
   // Extract intervention data fields
-  const {firstName} = props;
+  const {firstName, onDismiss} = props;
 
   return (
     <Modal
       isOpen={true}
-      onClose={() => {}}
+      onClose={onDismiss}
       animation="fade"
       className="mobius-intervention"
     >

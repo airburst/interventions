@@ -30,8 +30,8 @@ export const InterventionsProvider = ({children}: ProviderProps) => {
       const response = await fetch(POLLING_API_URL);
       const data = (await response.json()) as Intervention[];
       // DEBUG:
-      // console.info("Polling API data for interventions");
-      // console.table(data.map(({name, isLive}) => ({name, isLive})));
+      console.info("Polling API data for interventions");
+      console.table(data.map(({name, isLive}) => ({name, isLive})));
       // Add listeners to event emitter
       data.forEach((intervention) => {
         if (intervention.isLive) {

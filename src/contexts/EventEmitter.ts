@@ -14,6 +14,12 @@ export class EventEmitter<T> {
     this.events[event].push(listener);
   }
 
+  off(event: string) {
+    if (this.events[event]) {
+      delete this.events[event];
+    }
+  }
+
   emit(event: string, data: T) {
     const listeners = this.events[event];
 

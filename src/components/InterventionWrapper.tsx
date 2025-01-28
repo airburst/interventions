@@ -21,6 +21,11 @@ export const InterventionWrapper = ({
   const [intervention, setIntervention] = useState<Intervention | null>(null);
   const [show, setShow] = useState(false);
 
+  const onDismiss = () => {
+    setShow(false);
+    eventEmitter?.off(name);
+  };
+
   // Subscribe to events for the given intervention name
   useEffect(() => {
     eventEmitter?.on(name, (data) => {
@@ -29,11 +34,17 @@ export const InterventionWrapper = ({
         setShow(true);
       }
     });
+    return () => {
+      eventEmitter?.off(name);
+    };
   }, [eventEmitter, name]);
 
   if (!show) {
     return null;
   }
 
-  return cloneElement(children as ReactElement, {...(intervention || {})});
+  return cloneElement(children as ReactElement, {
+    ...(intervention || {}),
+    onDismiss,
+  });
 };
