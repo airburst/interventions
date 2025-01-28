@@ -1,4 +1,11 @@
-import {cloneElement, ReactElement, ReactNode, useRef} from "react";
+import {
+  cloneElement,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {useInterventions} from "../hooks/useInterventions";
 
 type InterventionWrapperProps = {
@@ -10,9 +17,25 @@ export const InterventionWrapper = ({
   name,
   children,
 }: InterventionWrapperProps) => {
-  const {interventions} = useInterventions();
   const showOnce = useRef(false);
-  const thisIntervention = interventions.find((i) => i.name === name);
+  const {eventEmitter} = useInterventions();
+  const [show, setShow] = useState(false);
+
+  // Subscribe to events for the given intervention name
+  useEffect(() => {
+    eventEmitter?.on(name, (data) => {
+      if (data.isLive) {
+        setShow(true);
+      }
+    });
+    // return () => {
+    //   eventEmitter?.off(name);
+    // };
+  }, [eventEmitter, name]);
+
+  if (!show) {
+    return null;
+  }
 
   if (thisIntervention?.isLive && !showOnce.current) {
     showOnce.current = true;
