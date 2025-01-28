@@ -1,7 +1,6 @@
-import {createContext, useCallback, type ReactNode} from "react";
+import {createContext, useCallback, useMemo, type ReactNode} from "react";
 import {POLLING_API_URL, POLLING_INTERVAL} from "../constants";
 import {useInterval} from "../hooks";
-import {useInterventions} from "../hooks/useInterventions";
 import {Intervention} from "../types";
 import {EventEmitter} from "./EventEmitter";
 
@@ -17,7 +16,7 @@ type ProviderProps = {
 };
 
 export const InterventionsProvider = ({children}: ProviderProps) => {
-  const {dispatch} = useInterventions();
+  const eventEmitter = useMemo(() => new EventEmitter<Intervention>(), []);
 
   // Define the API request
   const pollApi = useCallback(async () => {
@@ -27,11 +26,16 @@ export const InterventionsProvider = ({children}: ProviderProps) => {
       // DEBUG:
       // console.info("Polling API data for interventions");
       // console.table(data.map(({name, isLive}) => ({name, isLive})));
-      dispatch({type: "SET", payload: data});
+      // Add listeners to event emitter
+      data.forEach((intervention) => {
+        if (intervention.isLive) {
+          eventEmitter.emit(intervention.name, intervention);
+        }
+      });
     } catch (error) {
       console.log(error);
     }
-  }, [dispatch]);
+  }, [eventEmitter]);
 
   // Poll the API
   useInterval(pollApi, POLLING_INTERVAL);
