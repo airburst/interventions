@@ -1,4 +1,10 @@
-import {createContext, useCallback, useMemo, type ReactNode} from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  type ReactNode,
+} from "react";
 import {POLLING_API_URL, POLLING_INTERVAL} from "../constants";
 import {useInterval} from "../hooks";
 import {Intervention} from "../types";
@@ -45,4 +51,16 @@ export const InterventionsProvider = ({children}: ProviderProps) => {
       {children}
     </InterventionsContext.Provider>
   );
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useInterventions = () => {
+  const context = useContext(InterventionsContext);
+
+  if (!context) {
+    throw new Error(
+      "useInterventions must be used within an InterventionsProvider",
+    );
+  }
+  return context;
 };

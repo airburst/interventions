@@ -6,7 +6,8 @@ import {
   useRef,
   useState,
 } from "react";
-import {useInterventions} from "../hooks/useInterventions";
+import {useInterventions} from "../contexts/InterventionsProvider";
+import {Intervention} from "../types";
 
 type InterventionWrapperProps = {
   name: string;
@@ -20,30 +21,25 @@ export const InterventionWrapper = ({
   const showOnce = useRef(false);
   const {eventEmitter} = useInterventions();
   const [show, setShow] = useState(false);
+  const [intervention, setIntervention] = useState<Intervention | null>(null);
 
   // Subscribe to events for the given intervention name
   useEffect(() => {
     eventEmitter?.on(name, (data) => {
+      setIntervention(data);
       if (data.isLive) {
         setShow(true);
       }
     });
-    // return () => {
-    //   eventEmitter?.off(name);
-    // };
   }, [eventEmitter, name]);
 
   if (!show) {
     return null;
   }
 
-  if (thisIntervention?.isLive && !showOnce.current) {
+  if (intervention?.isLive && !showOnce.current) {
     showOnce.current = true;
   }
 
-  if (!showOnce.current) {
-    return null;
-  }
-
-  return cloneElement(children as ReactElement, {...thisIntervention});
+  return cloneElement(children as ReactElement, {...intervention});
 };
