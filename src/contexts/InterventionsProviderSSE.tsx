@@ -1,11 +1,12 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
   type ReactNode,
 } from "react";
-import {SERVER_URL} from "../constants";
+import {EVENT_TYPE, SERVER_URL} from "../constants";
 import {Intervention} from "../types";
 import {EventEmitter} from "./EventEmitter";
 
@@ -23,26 +24,32 @@ type ProviderProps = {
 export const InterventionsProviderSSE = ({children}: ProviderProps) => {
   const eventEmitter = useMemo(() => new EventEmitter<Intervention>(), []);
 
+  const handleInterventionUpdate = useCallback(
+    (event: MessageEvent<typeof EVENT_TYPE.INTERVENTION>) => {
+      const data = JSON.parse(event.data) as Intervention[];
+
+      // DEBUG:
+      console.info("SSE data for interventions");
+      console.table(data.map(({name, isLive}) => ({name, isLive})));
+
+      data.forEach((intervention) => {
+        if (intervention.isLive) {
+          eventEmitter.emit(intervention.name, intervention);
+        }
+      });
+    },
+    [eventEmitter],
+  );
+
   useEffect(() => {
     // Create an EventSource to listen for server-sent events
     const eventSource = new EventSource(`${SERVER_URL}/sse`);
 
     // Message handler
-    eventSource.onmessage = (event) => {
-      console.log("🚀 ~ useEffect ~ event:", event); //FIXME:
-      const data = JSON.parse(event.data) as Intervention[];
-      console.log("🚀 ~ useEffect ~ data:", data);
-
-      // DEBUG:
-      // console.info("SSE data for interventions");
-      // console.table(data.map(({name, isLive}) => ({name, isLive})));
-
-      // data.forEach((intervention) => {
-      //   if (intervention.isLive) {
-      //     eventEmitter.emit(intervention.name, intervention);
-      //   }
-      // });
-    };
+    eventSource.addEventListener(
+      EVENT_TYPE.INTERVENTION,
+      handleInterventionUpdate,
+    );
 
     eventSource.addEventListener("close", () => {
       console.log('Received "close" event. Closing connection...');
@@ -56,7 +63,7 @@ export const InterventionsProviderSSE = ({children}: ProviderProps) => {
     return () => {
       eventSource.close();
     };
-  }, [eventEmitter]);
+  }, [handleInterventionUpdate]);
 
   return (
     <InterventionsContext.Provider value={{eventEmitter}}>

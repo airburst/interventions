@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import {Intervention} from "../types";
 
+// This hook allows for any component to conenct to a stream
+// without needing to be wrapped in a provider.
 export const useSSE = (url: string) => {
   const [data, setData] = useState<Intervention[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -10,14 +12,13 @@ export const useSSE = (url: string) => {
 
     // Handle incoming data
     eventSource.onmessage = (event) => {
-      console.log("🚀 ~ useEffect ~ event:", event);
       const newData = JSON.parse(event.data);
       setData(newData);
     };
 
     // Handle errors
     eventSource.onerror = (err) => {
-      console.log("🚀 ~ eventSource.onerror:", err);
+      console.error("eventSource.onerror:", err);
       setError("Connection lost. Trying to reconnect...");
       eventSource.close();
     };
