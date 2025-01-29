@@ -1,7 +1,7 @@
 import {cloneElement, ReactElement, ReactNode, useState} from "react";
 // import {useInterventions} from "../contexts/InterventionsProviderSSE";
 import {SERVER_URL} from "../constants";
-import useSSE from "../hooks/useSSE";
+import {useSSE} from "../hooks/useSSE";
 import {Intervention} from "../types";
 
 type InterventionWrapperProps = {
@@ -15,8 +15,8 @@ export const InterventionWrapper = ({
 }: InterventionWrapperProps) => {
   // const {eventEmitter} = useInterventions();
   const {data, error} = useSSE(`${SERVER_URL}/sse`);
+  console.log("🚀 ~ InterventionWrapper:", {data, error});
   const [intervention, setIntervention] = useState<Intervention | null>(null);
-  console.log("🚀 ~ data:", data);
   const [show, setShow] = useState(false);
 
   const onDismiss = () => {
