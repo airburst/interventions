@@ -30,7 +30,7 @@ export const InterventionsProviderSSE = ({children}: ProviderProps) => {
 
       // DEBUG:
       console.info("SSE data for interventions");
-      console.table(data.map(({name, isLive}) => ({name, isLive})));
+      console.info(data.map(({name}) => name).join(", "));
 
       data.forEach((intervention) => {
         if (intervention.isLive) {

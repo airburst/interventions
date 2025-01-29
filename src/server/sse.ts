@@ -23,13 +23,16 @@ app.get("/sse", async (c) => {
   return streamSSE(c, async (stream) => {
     // Push data periodically
     while (true) {
-      const data = JSON.stringify(getData());
+      // Only send live interventions
+      const data = getData().filter((intervention) => intervention.isLive);
 
-      await stream.writeSSE({
-        data,
-        event: "intervention-update", // Create named event types
-        id: String(id++),
-      });
+      if (data.length > 0) {
+        await stream.writeSSE({
+          data: JSON.stringify(data),
+          event: "intervention-update", // Create named event types
+          id: String(id++),
+        });
+      }
       await stream.sleep(POLLING_INTERVAL);
     }
   });
