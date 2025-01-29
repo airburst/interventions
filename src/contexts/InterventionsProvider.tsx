@@ -5,7 +5,7 @@ import {
   useMemo,
   type ReactNode,
 } from "react";
-import {POLLING_API_URL, POLLING_INTERVAL} from "../constants";
+import {POLLING_INTERVAL, SERVER_URL} from "../constants";
 import {useInterval} from "../hooks";
 import {Intervention} from "../types";
 import {EventEmitter} from "./EventEmitter";
@@ -27,7 +27,7 @@ export const InterventionsProvider = ({children}: ProviderProps) => {
   // Define the API request
   const pollApi = useCallback(async () => {
     try {
-      const response = await fetch(POLLING_API_URL);
+      const response = await fetch(`${SERVER_URL}/interventions`);
       const data = (await response.json()) as Intervention[];
       // DEBUG:
       console.info("Polling API data for interventions");

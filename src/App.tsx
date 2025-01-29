@@ -4,12 +4,12 @@ import {AlertIntervention} from "./components/interventions/AlertIntervention";
 import {ModalIntervention} from "./components/interventions/ModalIntervention";
 import {TextIntervention} from "./components/interventions/TextIntervention";
 import {InterventionWrapper} from "./components/InterventionWrapper";
-import {InterventionsProvider} from "./contexts";
+import {InterventionsProviderSSE} from "./contexts/InterventionsProviderSSE";
 
 function App() {
   return (
     <main>
-      <InterventionsProvider>
+      <InterventionsProviderSSE>
         <Text elementType="h1">Interventions Test</Text>
 
         <Text elementType="p">
@@ -35,7 +35,7 @@ function App() {
         <InterventionWrapper name="popup-003">
           <ModalIntervention />
         </InterventionWrapper>
-      </InterventionsProvider>
+      </InterventionsProviderSSE>
     </main>
   );
 }
