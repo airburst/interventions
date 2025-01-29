@@ -21,6 +21,7 @@ app.use(
 // SSE endpoint
 app.get("/sse", async (c) => {
   return streamSSE(c, async (stream) => {
+    // Push data periodically
     while (true) {
       const data = JSON.stringify(getData());
 
@@ -33,24 +34,6 @@ app.get("/sse", async (c) => {
     }
   });
 });
-
-// Store active connections
-// const clients = new Set<StreamingApi>();
-
-// Helper function to broadcast messages to all clients
-// export const broadcast = (event: string, data: any) => {
-//   const message = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
-//   clients.forEach((client) => {
-//     client.write(message);
-//   });
-// };
-
-// Example endpoint to trigger broadcast
-// app.post("/broadcast", async (c) => {
-//   const body = await c.req.json();
-//   broadcast("message", body);
-//   return c.json({success: true});
-// });
 
 const port = POLLING_API_PORT;
 
