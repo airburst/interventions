@@ -34,9 +34,7 @@ export const InterventionWrapper = ({
         setShow(true);
       }
     });
-    return () => {
-      eventEmitter?.off(name);
-    };
+    return () => eventEmitter?.off(name);
   }, [eventEmitter, name]);
 
   if (!show) {
