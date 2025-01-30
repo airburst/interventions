@@ -1,5 +1,5 @@
 import {cloneElement, ReactElement, ReactNode, useRef} from "react";
-import {useInterventions} from "../hooks/useInterventions";
+import {useInterventions} from "../contexts/InterventionsProvider";
 
 type InterventionWrapperProps = {
   name: string;
