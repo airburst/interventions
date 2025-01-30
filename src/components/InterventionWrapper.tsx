@@ -1,5 +1,12 @@
-import {cloneElement, ReactElement, ReactNode, useRef} from "react";
-import {useInterventions} from "../contexts/InterventionsProvider";
+import {
+  cloneElement,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
+import {useInterventions} from "../contexts/InterventionsProviderSSE";
+import {Intervention} from "../types";
 
 type InterventionWrapperProps = {
   name: string;
@@ -10,17 +17,32 @@ export const InterventionWrapper = ({
   name,
   children,
 }: InterventionWrapperProps) => {
-  const {interventions} = useInterventions();
-  const showOnce = useRef(false);
-  const thisIntervention = interventions.find((i) => i.name === name);
+  const {eventEmitter} = useInterventions();
+  const [intervention, setIntervention] = useState<Intervention | null>(null);
+  const [show, setShow] = useState(false);
 
-  if (thisIntervention?.isLive && !showOnce.current) {
-    showOnce.current = true;
-  }
+  const onDismiss = () => {
+    setShow(false);
+    eventEmitter?.off(name);
+  };
 
-  if (!showOnce.current) {
+  // Subscribe to events for the given intervention name
+  useEffect(() => {
+    eventEmitter?.on(name, (data) => {
+      setIntervention(data);
+      if (data.isLive) {
+        setShow(true);
+      }
+    });
+    return () => eventEmitter?.off(name);
+  }, [eventEmitter, name]);
+
+  if (!show) {
     return null;
   }
 
-  return cloneElement(children as ReactElement, {...thisIntervention});
+  return cloneElement(children as ReactElement, {
+    ...(intervention || {}),
+    onDismiss,
+  });
 };
