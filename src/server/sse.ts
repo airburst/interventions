@@ -23,6 +23,8 @@ app.get("/sse", async (c) => {
   return streamSSE(c, async (stream) => {
     // Push data periodically
     while (true) {
+      await stream.sleep(POLLING_INTERVAL);
+
       // Only send live interventions
       const data = getData().filter((intervention) => intervention.isLive);
 
@@ -33,7 +35,6 @@ app.get("/sse", async (c) => {
           id: String(id++),
         });
       }
-      await stream.sleep(POLLING_INTERVAL);
     }
   });
 });
