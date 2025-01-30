@@ -2,6 +2,7 @@ import {serve} from "@hono/node-server";
 import {Hono} from "hono";
 import {cors} from "hono/cors";
 import {POLLING_API_PORT} from "../constants";
+import {getData} from "./data";
 
 const app = new Hono();
 
@@ -16,30 +17,9 @@ app.use(
   }),
 );
 
-const randomlyLive = (percent: number) => Math.random() < percent / 100;
-
 // GET endpoint that returns the array of strings
 app.get("/interventions", (c) => {
-  return c.json([
-    {
-      name: "text-001",
-      description: "This intervention displays additional text",
-      isLive: randomlyLive(50),
-      firstName: "Tony",
-    },
-    {
-      name: "alert-002",
-      description: "This intervention displays an alert",
-      isLive: randomlyLive(33),
-      firstName: "Alice",
-    },
-    {
-      name: "popup-003",
-      description: "This intervention displays additional text",
-      isLive: randomlyLive(25),
-      firstName: "Poppy",
-    },
-  ]);
+  return c.json(getData());
 });
 
 const port = POLLING_API_PORT;
