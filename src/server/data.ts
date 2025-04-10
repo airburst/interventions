@@ -1,4 +1,4 @@
-import {Interventions} from "../types";
+import { Interventions } from "../types";
 
 const randomlyLive = (percent: number) => Math.random() < percent / 100;
 
