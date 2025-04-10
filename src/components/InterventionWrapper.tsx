@@ -30,7 +30,7 @@ export const InterventionWrapper = ({
   useEffect(() => {
     eventEmitter?.on(name, (data) => {
       setIntervention(data);
-      if (data.isLive) {
+      if (data.show) {
         setShow(true);
       }
     });

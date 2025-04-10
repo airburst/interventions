@@ -7,7 +7,7 @@ import {
 } from "react";
 import {POLLING_API_URL, POLLING_INTERVAL} from "../constants";
 import {useInterval} from "../hooks";
-import {Intervention} from "../types";
+import {Intervention, Interventions} from "../types";
 import {EventEmitter} from "./EventEmitter";
 
 export interface InterventionsProviderInterface {
@@ -27,15 +27,16 @@ export const InterventionsProvider = ({children}: ProviderProps) => {
   // Define the API request
   const pollApi = useCallback(async () => {
     try {
-      const response = await fetch(POLLING_API_URL);
-      const data = (await response.json()) as Intervention[];
+      const response = await fetch(`${POLLING_API_URL}/interventions`);
+      const data = (await response.json()) as Interventions;
       // DEBUG:
       console.info("Polling API data for interventions");
-      console.table(data.map(({name, isLive}) => ({name, isLive})));
+      console.table(data);
+
       // Add listeners to event emitter
-      data.forEach((intervention) => {
-        if (intervention.isLive) {
-          eventEmitter.emit(intervention.name, intervention);
+      Object.entries(data).forEach(([name, intervention]) => {
+        if (intervention.show) {
+          eventEmitter.emit(name, intervention);
         }
       });
     } catch (error) {
