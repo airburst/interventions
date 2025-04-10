@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import {useInterventions} from "../contexts/InterventionsProviderSSE";
+import {useInterventions} from "../contexts/InterventionsProvider";
 import {Intervention} from "../types";
 
 type InterventionWrapperProps = {
@@ -30,7 +30,7 @@ export const InterventionWrapper = ({
   useEffect(() => {
     eventEmitter?.on(name, (data) => {
       setIntervention(data);
-      if (data.isLive) {
+      if (data.show) {
         setShow(true);
       }
     });

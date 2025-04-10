@@ -1,1 +1,1 @@
-export {InterventionsProviderSSE} from "./InterventionsProviderSSE";
+export {InterventionsProviderSSE} from "./InterventionsProvider";

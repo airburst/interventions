@@ -4,7 +4,7 @@ import {AlertIntervention} from "./components/interventions/AlertIntervention";
 import {ModalIntervention} from "./components/interventions/ModalIntervention";
 import {TextIntervention} from "./components/interventions/TextIntervention";
 import {InterventionWrapper} from "./components/InterventionWrapper";
-import {InterventionsProviderSSE} from "./contexts/InterventionsProviderSSE";
+import {InterventionsProviderSSE} from "./contexts/InterventionsProvider";
 
 function App() {
   return (

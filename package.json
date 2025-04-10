@@ -9,9 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start:api": "tsx src/server/polling-api.ts",
-    "start:stream": "tsx src/server/sse.ts",
     "start": "npm run start:api & npm run dev",
-    "start:sse": "npm run start:stream & npm run dev"
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "@simplybusiness/mobius": "^5.15.7",

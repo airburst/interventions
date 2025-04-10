@@ -1,10 +1,10 @@
 export type Intervention = {
-  name: string;
-  description?: string;
-  isLive: boolean;
+  show: boolean;
   // Custom fields
   firstName?: string;
 };
+
+export type Interventions = Record<string, Intervention>;
 
 export type InterventionProps = Partial<Intervention> & {
   onDismiss?: () => void;
